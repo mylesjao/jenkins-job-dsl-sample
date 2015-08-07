@@ -18,13 +18,9 @@ lazy val rootProject = (project in file(".")).
     //mainClass in assembly := Some("com.vpon.datapipeline.video.Main"),
 
     libraryDependencies ++= Seq(
-
-      //util
-      "com.typesafe" % "config" % "1.2.1",
-      "com.github.nscala-time" %% "nscala-time" % "2.0.0",
-      "com.google.guava" % "guava" % "18.0",
-      "com.fasterxml.jackson.module" %% "jackson-module-scala" % "2.5.2",
-      "com.github.fge" % "json-schema-validator" % "2.2.6",
+      //finatra
+      "com.twitter.finatra" %% "finatra-http" % "2.0.0.M2",
+      "com.twitter.finatra" %% "finatra-logback" % "2.0.0.M2",
 
       //logging
       "com.typesafe.scala-logging" %% "scala-logging-slf4j" % "2.1.2",
