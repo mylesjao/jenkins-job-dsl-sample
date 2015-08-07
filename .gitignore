@@ -1,3 +1,13 @@
+# OS-X
+.DS_Store
+
+# intellij
+*.iml
+*.ipr
+*.iws
+.idea
+out
+
 *.class
 *.log
 
