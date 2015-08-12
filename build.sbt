@@ -15,6 +15,11 @@ lazy val commonSettings = Seq(
 //settings for root project
 lazy val root = (project in file(".")).
   settings(commonSettings: _*).
+  aggregate(webSample)
+
+// web-sample
+lazy val webSample = (project in file("web-sample")).
+  settings(commonSettings: _*).
   settings(net.virtualvoid.sbt.graph.Plugin.graphSettings: _*).
   settings(
     name := "web-sample",
