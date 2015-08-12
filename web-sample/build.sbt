@@ -32,7 +32,12 @@ lazy val root = (project in file(".")).
 
       //test
       "org.scalatest" %% "scalatest" % "2.2.4" % "test"
-    )
+    ),
+
+    assemblyMergeStrategy in assembly := {
+      case "BUILD" => MergeStrategy.discard
+      case other => MergeStrategy.defaultMergeStrategy(other)
+    }
 
   )
 
