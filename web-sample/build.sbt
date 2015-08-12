@@ -1,21 +1,26 @@
+
 //settings for all project
 lazy val commonSettings = Seq(
-  organization := "com.vpon.sample",
+  organization := "idv.myles.sample",
 
   version := "0.1.0",
 
-  scalaVersion := "2.11.6"
+  scalaVersion := "2.11.6",
+
+  resolvers ++= Seq(
+    "Twitter Maven" at "http://maven.twttr.com"
+  )
 )
 
 //settings for root project
-lazy val rootProject = (project in file(".")).
+lazy val root = (project in file(".")).
   settings(commonSettings: _*).
   settings(net.virtualvoid.sbt.graph.Plugin.graphSettings: _*).
   settings(
     name := "web-sample",
 
     //assembly settings
-    //mainClass in assembly := Some("com.vpon.datapipeline.video.Main"),
+    mainClass in assembly := Some("idv.myles.sample.HelloWorldServerMain"),
 
     libraryDependencies ++= Seq(
       //finatra
