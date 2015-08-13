@@ -3,7 +3,7 @@ freeStyleJob("build") {
 	description "A job to compile, unit-test, package and make distributed tarball"
 	
 	scm {
-		git("https://github.com/mylesjao/jenkins-job-dsl-sample.git", "master")
+		git("https://github.com/mylesjao/jenkins-job-dsl-sample.git", "job-dsl")
 	}
 
 	triggers {
