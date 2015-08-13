@@ -7,7 +7,7 @@ freeStyleJob("build") {
 	}
 
 	triggers {
-		scm('*/15 * * * *')
+		scm('H/15 * * * *')
 	}
 
 	steps {

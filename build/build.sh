@@ -6,7 +6,7 @@ cd ${PROJECT_HOME}
 VERSION=` grep "version" version.sbt |awk -F":=" '{ print $2 }' |sed -e 's/^[[:space:]]*//'|tr -d '"' `
 
 # build and generate assembly jar with sbt
-#sbt clean assembly
+sbt clean assembly
 
 #clean dist dir
 echo "remove dist directory..."
