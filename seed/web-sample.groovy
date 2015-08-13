@@ -1,36 +1,86 @@
-freeStyleJob("build") {
-	
-	description "A job to compile, unit-test, package and make distributed tarball"
-	
-	scm {
-		git("https://github.com/mylesjao/jenkins-job-dsl-sample.git", "*/job-dsl") {
-			createTag(false)
-		}
-	}
+def project = "web-sample"
 
-	triggers {
-		scm('H/15 * * * *')
-	}
+freeStyleJob("${project}-build") {
 
-	steps {
-		shell("build/build.sh")
-	}
+    description("A job to compile, unit-test, package and make distributed tarball")
+
+    scm {
+        git {
+            remote {
+                url("https://github.com/mylesjao/jenkins-job-dsl-sample.git")
+            }
+            branch("job-dsl")
+            createTag(false)
+        }
+    }
+
+    triggers {
+        scm('H/15 * * * *')
+    }
+
+    steps {
+        shell("build/build.sh")
+    }
+
+    publishers {
+        downstream("${project}-dist", "SUCCESS")
+    }
 
 }
 
-freeStyleJob("dist") {
+freeStyleJob("${project}-dist") {
 
-	description "A to make a docker image"
+    description("A job to make a docker distribution")
+
+    steps {
+        shell("echo 'dist....'")
+    }
+
+    publishers {
+        downstream("${project}-publish", "SUCCESS")
+    }
 }
 
-/*freeStyleJob("publish") {
+freeStyleJob("${project}-publish") {
 
-	description "A job to publish docker image to registry"
-	
+    description("A job to publish docker image to registry")
+
+    steps {
+        shell("echo 'publish....'")
+    }
+
+    publishers {
+        downstream("${project}-deploy", "SUCCESS")
+    }
+
 }
 
-freeStyleJob("deploy") {
+freeStyleJob("${project}-deploy") {
 
-	description "A job to pull docker from registry and run"
-	
-}*/
+    description("A job to pull docker from registry and run")
+
+    steps {
+        shell("echo 'deploy...'")
+    }
+
+}
+
+listView("${project}") {
+    description("All jobs for ${project}")
+    filterBuildQueue(true)
+    filterExecutors(true)
+
+    jobs {
+        name("${project}")
+        regex("${project}-.*")
+    }
+
+    columns {
+        status()
+        weather()
+        name()
+        lastSuccess()
+        lastFailure()
+        lastDuration()
+    }
+}
