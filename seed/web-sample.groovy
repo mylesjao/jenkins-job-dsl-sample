@@ -23,7 +23,18 @@ freeStyleJob("${project}-build") {
     }
 
     publishers {
+
+        publishCloneWorkspace("dist/**/*,build/**/*,version.sbt") {
+            criteria("Successful") // 'Not Failed', 'Any', 'Successful'
+            archiveMethod("TAR") // 'ZIP', 'TAR'
+        }
+
         downstream("${project}-dist", "SUCCESS")
+    }
+
+    logRotator {
+        daysToKeep(1)
+        numToKeep(1)
     }
 
 }
@@ -32,12 +43,27 @@ freeStyleJob("${project}-dist") {
 
     description("A job to make a docker distribution")
 
+    scm {
+        cloneWorkspace("${project}-build", "Successful")
+    }
+
     steps {
-        shell("echo 'dist....'")
+        shell("build/dist.sh")
     }
 
     publishers {
+
+        publishCloneWorkspace("build/**/*,version.sbt") {
+            criteria("Successful") // 'Not Failed', 'Any', 'Successful'
+            archiveMethod("TAR") // 'ZIP', 'TAR'
+        }
+
         downstream("${project}-publish", "SUCCESS")
+    }
+
+    logRotator {
+        daysToKeep(1)
+        numToKeep(1)
     }
 }
 
@@ -45,22 +71,46 @@ freeStyleJob("${project}-publish") {
 
     description("A job to publish docker image to registry")
 
+    scm {
+        cloneWorkspace("${project}-dist", "Successful")
+    }
+
     steps {
-        shell("echo 'publish....'")
+        shell("build/publish.sh")
     }
 
     publishers {
+
+        publishCloneWorkspace("build/**/*,version.sbt") {
+            criteria("Successful") // 'Not Failed', 'Any', 'Successful'
+            archiveMethod("TAR") // 'ZIP', 'TAR'
+        }
+
         downstream("${project}-deploy", "SUCCESS")
+    }
+
+    logRotator {
+        daysToKeep(1)
+        numToKeep(1)
     }
 
 }
 
 freeStyleJob("${project}-deploy") {
 
-    description("A job to pull docker from registry and run")
+    description("A job to pull docker image from registry and run")
+
+    scm {
+        cloneWorkspace("${project}-publish", "Successful")
+    }
 
     steps {
-        shell("echo 'deploy...'")
+        shell("build/deploy.sh")
+    }
+
+    logRotator {
+        daysToKeep(1)
+        numToKeep(1)
     }
 
 }

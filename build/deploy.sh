@@ -7,7 +7,7 @@ VERSION=` grep "version" version.sbt |awk -F":=" '{ print $2 }' |sed -e 's/^[[:s
 CONTAINER_NAME=web-sample-${VERSION}
 
 # change this to private registry host if need
-REGISTRY_HOST=mylesjao
+REGISTRY_HOST=localhost:5000
 
 # remove previous container
 echo "stop and remove container: ${CONTAINER_NAME} ..."
