@@ -14,8 +14,7 @@ if [ -f "${ASSEMBLY}" ]
 then
 	echo "build docker images..."
 	cp build/Dockerfile dist/
-	docker build -t mylesjao/web-sample:${VERSION} dist/
-	docker tag mylesjao/web-sample:${VERSION} ${REGISTRY_HOST}/mylesjao/web-sample:${VERSION}
+	docker build -t ${REGISTRY_HOST}/web-sample:${VERSION} dist/
 else
 	echo "${ASSEMBLY} not found. Please run build.sh first"
 fi
