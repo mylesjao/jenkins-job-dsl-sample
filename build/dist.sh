@@ -6,6 +6,8 @@ pwd
 
 VERSION=` grep "version" version.sbt |awk -F":=" '{ print $2 }' |sed -e 's/^[[:space:]]*//'|tr -d '"' `
 
+REGISTRY_HOST=localhost:5000
+
 # docker build
 ASSEMBLY="${PROJECT_HOME}/dist/web-sample.tar.gz"
 if [ -f "${ASSEMBLY}" ]
@@ -13,6 +15,7 @@ then
 	echo "build docker images..."
 	cp build/Dockerfile dist/
 	docker build -t mylesjao/web-sample:${VERSION} dist/
+	docker tag mylesjao/web-sample:${VERSION} ${REGISTRY_HOST}/mylesjao/web-sample:${VERSION}
 else
 	echo "${ASSEMBLY} not found. Please run build.sh first"
 fi
