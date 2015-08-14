@@ -9,7 +9,7 @@ freeStyleJob("${project}-build") {
             remote {
                 url("https://github.com/mylesjao/jenkins-job-dsl-sample.git")
             }
-            branch("job-dsl")
+            branch("master")
             createTag(false)
         }
     }
