@@ -115,8 +115,8 @@ freeStyleJob("${project}-deploy") {
 
 }
 
-listView("${project}") {
-    description("All jobs for ${project}")
+listView("${project}-list") {
+    description("List all jobs of ${project}")
     filterBuildQueue(true)
     filterExecutors(true)
 
@@ -133,4 +133,46 @@ listView("${project}") {
         lastFailure()
         lastDuration()
     }
+}
+
+nestedView("${project}-nested") {
+    description("All job of ${project} in nested view")
+    filterBuildQueue(true)
+    filterExecutors(true)
+
+    columns {
+        status()
+        weather()
+    }
+
+    views {
+        listView("${project}-list") {
+            description("List all jobs of ${project}")
+            filterBuildQueue(true)
+            filterExecutors(true)
+
+            jobs {
+                name("${project}")
+                regex("${project}-.*")
+            }
+
+            columns {
+                status()
+                weather()
+                name()
+                lastSuccess()
+                lastFailure()
+                lastDuration()
+            }
+        }
+
+        buildPipelineView("${project}-pipeline") {
+            description("job pipeline of ${project}")
+            title("${project}")
+            filterBuildQueue(true)
+            filterExecutors(true)
+            selectedJob("${project}-build")
+        }
+    }
+
 }
